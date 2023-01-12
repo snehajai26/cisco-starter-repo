@@ -22,13 +22,39 @@ class Exhibit extends Component {
   }
 }
 
+class GetIP extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+        url: props.url,
+        ipAddress: null
+    };
+  }
+  componentDidMount() {
+    fetch(this.state.url)
+       .then(response => response.json())
+       .then(data => this.setState( {ipAddress: data.ip} ));
+  }
+  render() {
+    return (
+      <span className="GetIP">
+        {this.state.ipAddress}
+      </span>
+    );
+  }
+}
+
 class App extends Component {
   render() {
     return (
       <div className="App">
         <Banner text="Sextant" />
-        <Exhibit name="Exhibit 1"></Exhibit>
-        <Exhibit name="Exhibit 2"></Exhibit>
+        <Exhibit name="IPv4">
+          <GetIP url= "https://api.ipify.org?format=json" />
+        </Exhibit>
+        <Exhibit name="IPv6">
+          <GetIP url= "https://api64.ipify.org?format=json" />
+        </Exhibit>
       </div>
     );
   }
